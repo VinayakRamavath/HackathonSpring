@@ -1,0 +1,7 @@
+docker-compose.yml
+mvnw
+mvnw.cmd
+.mvn/*
+.project
+.classpath
+/target/*
