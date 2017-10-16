@@ -45,8 +45,14 @@ public class UserController {
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST) 
 	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){
+		try {
 		if(user.getEmailId() == null) return new ResponseEntity<String>("Please enter Email-ID", HttpStatus.OK);
 		return new ResponseEntity<String>(userService.saveUser(user), HttpStatus.OK);
+	}
+	catch(Exception e) {
+		String error="unable to post";
+		return new ResponseEntity<String>(error, HttpStatus.NOT_FOUND);
+	}
 	}
 	
 	 
