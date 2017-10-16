@@ -26,7 +26,7 @@ public class SwaggerConfig {
         ApiInfo apiInfo = new ApiInfo(
                 "Spring Boot REST API",
                 "Spring Boot REST API for Hackathon Spring Project",
-                "1.0",
+                "2.0",
                 "Terms of service",
                 new Contact("Akshay Dharamkar and Vinayak prasad", "https://github.com/vinayakprasad96/HackathonSpring.git", "akshay.dharamkar@gmail.com"),
                 "Apache License Version 2.0",
