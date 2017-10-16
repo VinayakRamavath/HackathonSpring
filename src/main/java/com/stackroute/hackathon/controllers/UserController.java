@@ -19,43 +19,51 @@ import com.stackroute.hackathon.domain.User;
 import com.stackroute.hackathon.repositories.UserRepository;
 import com.stackroute.hackathon.services.UserService;
 
+//The main controller for the whole application
 @Controller    
-@RequestMapping(path="/movie") 
+@RequestMapping(path="/user") 
 public class UserController {
 	@Autowired
 	private UserService userService;
 	 
+	//<--- Fetcher Methods ---> 
 	@GetMapping(path="/fetch/{id:[0-9]+}") 
 	public @ResponseBody ResponseEntity<User> fetchUserByID (@PathVariable("id") int id) {  
 		return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
 	} 
 	 
-//	@GetMapping(path="/fetch/{name:[a-zA-Z]+}") 
-//	public @ResponseBody ResponseEntity<User> fetchMovieByName (@PathVariable("name") String name) {  
-//		return new ResponseEntity<User>(movieService.getMovieByName(name), HttpStatus.OK);
-//	}  
+	@GetMapping(path="/fetch/{name:[a-zA-Z]+}") 
+	public @ResponseBody ResponseEntity<User> getUserByName (@PathVariable("name") String name) {  
+		return new ResponseEntity<User>(userService.getUserByName(name), HttpStatus.OK);
+	}  
+	
+	
+	
+	//<--- Save Method ---> 
+	
 	@RequestMapping(value = "/save", method = RequestMethod.POST) 
-	public @ResponseBody ResponseEntity<String> saveNewMovie (@RequestBody User user){ 
+	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){ 
 		return new ResponseEntity<String>(userService.saveUser(user), HttpStatus.OK);
 	}
 	
 	 
+	
+	//<--- Delete Methods ---> 
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE) 
 	public @ResponseBody ResponseEntity<String> deleteUser (@RequestBody User movie){
 		System.out.println("Delete" + movie);
 		return new ResponseEntity<String>(userService.deleteUser(movie), HttpStatus.OK);
 	} 
-//	@RequestMapping(value = "/delete/{name:[a-zA-Z]+}", method = RequestMethod.DELETE) 
-//	public @ResponseBody ResponseEntity<String> deleteUserByName (@PathVariable("name") String name){ 
-//		System.out.println("Delete" + name);
-//		return new ResponseEntity<String>(movieService.deleteMovieByName(name), HttpStatus.OK);
-//	} 
+
 	@RequestMapping(value = "/delete/{id:[0-9]+}", method = RequestMethod.DELETE) 
 	public @ResponseBody ResponseEntity<String> deleteUserById (@PathVariable("id") int id){ 
 		System.out.println("Delete" + id);
 		return new ResponseEntity<String>(userService.deleteUserById(id), HttpStatus.OK);
 	}
 	 
+	
+	
+	//<--- Get All Methods --->  
 	@GetMapping(path="/all",produces="application/json") 
 	public @ResponseBody Iterable<User> getAllUsers() { 
 		return userService.getAllUsers();

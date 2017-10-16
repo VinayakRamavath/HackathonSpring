@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 import com.stackroute.hackathon.domain.User;
 import com.stackroute.hackathon.repositories.UserRepository;
 
+
+//Service implementation
 @Service 
 public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private UserRepository userRepository;
 	
+	
+	//<--- Setter-Getter Methods ---> 
 	public UserRepository getMovieRepository() {
 		return userRepository;
 	}
@@ -22,19 +26,21 @@ public class UserServiceImpl implements UserService{
 		this.userRepository = userRepository;
 	}
 
+	//<--- Get Methods ---> 
 	@Override
 	public User getUserById(int id) {
 		// TODO Auto-generated method stub 
 		return userRepository.findOne(id); 
+	} 
+	
+	@Override
+	public User getUserByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-//	@Override
-//	public User getUserByName(String name) {
-//		// TODO Auto-generated method stub
-//		return userRepository.findByName(name);
-//	}
 	
 	
+	//<--- Delete Methods ---> 
 	@Override
 	public String deleteUser(User user) {
 		// TODO Auto-generated method stub
@@ -57,6 +63,8 @@ public class UserServiceImpl implements UserService{
 		userRepository.delete(user);
 		return "User deleted successfully";
 	}
+	
+	//<--- GetAll Method ---> 
 
 	@Override
 	public Iterable<User> getAllUsers() {
@@ -64,6 +72,8 @@ public class UserServiceImpl implements UserService{
 		return userRepository.findAll();
 	}
 
+	
+	//<--- Save Methods ---> 
 	@Override
 	public String saveUser(User user) {
 		// TODO Auto-generated method stub
@@ -72,22 +82,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public User save(User user) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		userRepository.save(user);
 		return user;
 	}
 
-	@Override
-	public User getUserByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-//	@Override
-//	public Movie updateMovieComments(Integer id, String comments) {
-//		// TODO Auto-generated method stub
-//		
-//		return movieRepository.updateMovieComments(id, comments);
-//	}
+	
+ 
 	
 }

@@ -21,7 +21,15 @@ public class User {
     @Column(name="username")
     private String username;
 	
-    @Column(name="firstname")
+    public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	@Column(name="firstname",updatable=true,nullable=false)
     private String firstname;
     
     @Column(name="lastname")
@@ -46,13 +54,7 @@ public class User {
 		this.username = username;
 	}
 
-	public String getFirstName() {
-		return firstname;
-	}
-
-	public void setFirstName(String firstname) {
-		this.firstname = firstname;
-	}
+	 
 
 	public String getLastname() {
 		return lastname;
@@ -70,14 +72,16 @@ public class User {
 		this.emailId = emailId;
 	}
 
-	public User(Integer id, String username, String firstName, String lastname, String emailId) {
+	public User(Integer id, String username, String firstname, String lastname, String emailId) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.firstname = firstName;
+		this.firstname = firstname;
 		this.lastname = lastname;
 		this.emailId = emailId;
-	} 
+	}
+
+	 
  
     
 }

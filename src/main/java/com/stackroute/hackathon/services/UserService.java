@@ -3,6 +3,7 @@ package com.stackroute.hackathon.services;
 
 import com.stackroute.hackathon.domain.User;
 
+//Interface for all the services
 
 public interface UserService {
 	public User getUserById(int id);
