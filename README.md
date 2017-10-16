@@ -11,7 +11,7 @@ To run the application, use src/main/java/com/stackroute/hackathon/Application.j
 
 # Swagger Documentation
 
-Please follow the following Swagger HTML for using the API whilst running the
+Please follow the following Swagger HTML for using the API whilst running the application.
 
 http://localhost:8080/swagger-ui.html
 
