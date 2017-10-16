@@ -48,7 +48,6 @@ public class AppTest  extends TestCase {
                 HttpMethod.POST, entity, String.class); 
         assertNotNull(response);
         String actual = response.getBody();
-        System.out.println(actual);
         assertEquals("User saved successfully",actual); 
     }
     
@@ -71,7 +70,6 @@ public class AppTest  extends TestCase {
                 HttpMethod.DELETE, entity, String.class); 
         assertNotNull(response);
         String actual = response.getBody();
-        System.out.println(actual);
         assertEquals("User deleted successfully",actual);
     }
     

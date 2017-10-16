@@ -51,13 +51,13 @@ public class UserController {
 	//<--- Delete Methods ---> 
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE) 
 	public @ResponseBody ResponseEntity<String> deleteUser (@RequestBody User movie){
-		System.out.println("Delete" + movie);
+		
 		return new ResponseEntity<String>(userService.deleteUser(movie), HttpStatus.OK);
 	} 
 
 	@RequestMapping(value = "/delete/{id:[0-9]+}", method = RequestMethod.DELETE) 
 	public @ResponseBody ResponseEntity<String> deleteUserById (@PathVariable("id") int id){ 
-		System.out.println("Delete" + id);
+		
 		return new ResponseEntity<String>(userService.deleteUserById(id), HttpStatus.OK);
 	}
 	 
