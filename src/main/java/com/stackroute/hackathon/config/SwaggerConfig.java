@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.stackroute.hackathon"))
-                .paths(regex("/user.*"))
+                .paths(regex("/v1.0/userservice/user.*"))
                 .build()
                 .apiInfo(metaData());
     }
