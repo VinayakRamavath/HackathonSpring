@@ -52,6 +52,42 @@ public class AppTest  extends TestCase {
     }
     
     @Test
+    public void testSaveUserWithoutEmail() throws Exception { 
+    	String actual = ""; 
+    		HttpHeaders headers = new HttpHeaders();
+	    	headers.setContentType(MediaType.APPLICATION_JSON);
+	    	user = new User(16, "akshaydv","akshay", "dv","akshay@stackroute.com");
+	    	user.setEmailId(null);
+	        HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
+	        ResponseEntity<String> response = restTemplate.exchange(
+	                createURLWithPort("/user/save"),
+	                HttpMethod.POST, entity, String.class); 
+	        assertNotNull(response);
+	        actual = response.getBody();
+    	 
+        assertEquals("Please make sure that both username and email id are entered.",actual); 
+        
+    }
+    
+    @Test
+    public void testSaveUserWithoutName() throws Exception { 
+    	String actual = ""; 
+    	HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+	    user = new User(16, "akshaydv","akshay", "dv","akshay@stackroute.com");
+	    user.setFirstname(null);
+	    HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
+	    ResponseEntity<String> response = restTemplate.exchange(
+	             createURLWithPort("/user/save"),
+	             HttpMethod.POST, entity, String.class); 
+	    assertNotNull(response);
+	    actual = response.getBody();
+    	 
+        assertEquals("Please make sure that both username and email id are entered.",actual); 
+        
+    }
+    
+    @Test
     public void testList() throws Exception {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(
@@ -61,7 +97,7 @@ public class AppTest  extends TestCase {
     } 
     
     @Test
-    public void testDeleteMovie() throws Exception {
+    public void testDeleteUser() throws Exception {
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<User> entity = new HttpEntity<User>(user, headers); 

@@ -44,7 +44,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST) 
 	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){
-		if(user.getEmailId() == null || user.getUsername() == null) return new ResponseEntity<String>("Please make sure that both username and email id.", HttpStatus.BAD_REQUEST);
+		if(user.getEmailId() == null || user.getFirstname() == null) return new ResponseEntity<String>("Please make sure that both username and email id are entered.", HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<String>(userService.saveUser(user), HttpStatus.OK);
 	}
 	

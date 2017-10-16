@@ -18,7 +18,7 @@ public class User {
 	@Column(name="id")
     private Integer id;
 	
-    @Column(name="username",nullable=false)
+    @Column(name="username")
     private String username;
 	
     public String getFirstname() {
@@ -35,7 +35,7 @@ public class User {
     @Column(name="lastname")
     private String lastname; 
     
-    @Column(name="emailId",nullable=false)
+    @Column(name="emailId")
     private String emailId;
 
 	public Integer getId() {
