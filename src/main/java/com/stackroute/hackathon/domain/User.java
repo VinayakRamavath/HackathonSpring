@@ -18,7 +18,7 @@ public class User {
 	@Column(name="id")
     private Integer id;
 	
-    @Column(name="username")
+    @Column(name="username",nullable=false)
     private String username;
 	
     public String getFirstname() {
@@ -29,13 +29,13 @@ public class User {
 		this.firstname = firstname;
 	}
 
-	@Column(name="firstname",updatable=true,nullable=false)
+	@Column(name="firstname")
     private String firstname;
     
     @Column(name="lastname")
     private String lastname; 
     
-    @Column(name="emailId")
+    @Column(name="emailId",nullable=false)
     private String emailId;
 
 	public Integer getId() {
