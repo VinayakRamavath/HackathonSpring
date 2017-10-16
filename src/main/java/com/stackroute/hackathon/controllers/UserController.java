@@ -44,7 +44,8 @@ public class UserController {
 	//<--- Save Method ---> 
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST) 
-	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){ 
+	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){
+		if(user.getEmailId() == null) return new ResponseEntity<String>("Please enter Email-ID", HttpStatus.OK);
 		return new ResponseEntity<String>(userService.saveUser(user), HttpStatus.OK);
 	}
 	
