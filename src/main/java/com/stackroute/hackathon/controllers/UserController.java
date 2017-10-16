@@ -28,8 +28,10 @@ public class UserController {
 	 
 	//<--- Fetcher Methods ---> 
 	@GetMapping(path="/fetch/{id:[0-9]+}") 
-	public @ResponseBody ResponseEntity<User> fetchUserByID (@PathVariable("id") int id) {  
+	public @ResponseBody ResponseEntity<User> fetchUserByID (@PathVariable("id") int id) { 
+		
 		return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+		
 	} 
 	 
 	@GetMapping(path="/fetch/{name:[a-zA-Z]+}") 
