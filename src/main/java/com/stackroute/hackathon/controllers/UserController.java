@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +23,13 @@ import com.stackroute.hackathon.services.UserService;
 
 //The main controller for the whole application
 @Controller    
-@RequestMapping(path="/user") 
+@RequestMapping(path="/v1.0/userservice/user") 
 public class UserController {
 	@Autowired
 	private UserService userService;
 	 
 	//<--- Fetcher Methods ---> 
-	@GetMapping(path="/fetch/{id:[0-9]+}") 
+	@GetMapping(path="/{id:[0-9]+}") 
 	public @ResponseBody ResponseEntity<?> fetchUserByID (@PathVariable("id") int id) { 
 		try {
 		return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
@@ -39,7 +40,7 @@ public class UserController {
 	}
 	} 
 	 
-	@GetMapping(path="/fetch/{name:[a-zA-Z]+}") 
+	@GetMapping(path="/{name:[a-zA-Z]+}") 
 	public @ResponseBody ResponseEntity<?> getUserByName (@PathVariable("name") String name) {  
 		try {
 			return new ResponseEntity<User>(userService.getUserByName(name), HttpStatus.OK);
@@ -53,7 +54,7 @@ public class UserController {
 	
 	//<--- Save Method ---> 
 	
-	@RequestMapping(value = "/save", method = RequestMethod.POST) 
+	@PostMapping 
 	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){
 
 		try {
@@ -68,7 +69,7 @@ public class UserController {
 	 
 	
 	//<--- Delete Methods ---> 
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE) 
+	@DeleteMapping
 	public @ResponseBody ResponseEntity<String> deleteUser (@RequestBody User movie){
 		try {
 		return new ResponseEntity<String>(userService.deleteUser(movie), HttpStatus.OK);
@@ -78,7 +79,7 @@ public class UserController {
 	}
 	} 
 
-	@RequestMapping(value = "/delete/{id:[0-9]+}", method = RequestMethod.DELETE) 
+	@DeleteMapping(value = "/{id:[0-9]+}")
 	public @ResponseBody ResponseEntity<String> deleteUserById (@PathVariable("id") int id){ 
 		try {
 			return new ResponseEntity<String>(userService.deleteUserById(id), HttpStatus.OK);
@@ -90,7 +91,7 @@ public class UserController {
 	
 	
 	//<--- Get All Methods --->  
-	@GetMapping(path="/all",produces="application/json") 
+	@GetMapping
 	public @ResponseBody ResponseEntity<?> getAllUsers() { 
 		try {
 			return new ResponseEntity<Iterable<User>>(userService.getAllUsers(), HttpStatus.OK);
