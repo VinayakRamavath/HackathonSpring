@@ -59,7 +59,7 @@ public class UserController {
 	public @ResponseBody ResponseEntity<String> saveNewUser (@RequestBody User user){
 
 		try {
-			if(user.getEmailId() == null || user.getUsername() == null) return new ResponseEntity<String>("Please make sure that both username and email id are entered.", HttpStatus.BAD_REQUEST);
+			if(user.getEmailId() == null || user.getFirstname() == null) return new ResponseEntity<String>("Please make sure that both username and email id are entered.", HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<String>(userService.saveUser(user), HttpStatus.OK);
 		}
 		catch(Exception e) { 
@@ -106,7 +106,7 @@ public class UserController {
 		@PutMapping
 		public @ResponseBody ResponseEntity<?> updateUser(@RequestBody User user) { 
 			try {
-				if(user.getEmailId() == null || user.getUsername() == null) return new ResponseEntity<String>("Please make sure that both username and email id are entered.", HttpStatus.BAD_REQUEST);
+				if(user.getEmailId() == null || user.getFirstname() == null) return new ResponseEntity<String>("Please make sure that both username and email id are entered.", HttpStatus.BAD_REQUEST);
 				return new ResponseEntity<String>(userService.updateUser(user), HttpStatus.OK);
 			}
 			catch(Exception e) { 

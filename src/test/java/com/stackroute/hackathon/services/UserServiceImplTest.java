@@ -7,6 +7,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.stackroute.hackathon.domain.User;
+import com.stackroute.hackathon.exceptions.UserNotFoundException;
 import com.stackroute.hackathon.repositories.UserRepository;
 
 import org.mockito.Mock;
@@ -45,8 +46,8 @@ public class UserServiceImplTest {
         User savedProduct = userServiceSpy.save(user);
         //Assert
         assertThat(savedProduct, is(equalTo(user)));
-    }
-
+    } 
+   
    @Test
     public void shouldVerifyThatGetProductByIdIsCalled() throws Exception {
         //Arrange
@@ -68,10 +69,10 @@ public class UserServiceImplTest {
     @Test
     public void shouldVerifyThatDeleteUserIsCalled() throws Exception {
         //Arrange
-        Mockito.doReturn(user).when(userServiceSpy).deleteUserById(5);
+        Mockito.doReturn("User deleted successfully").when(userServiceSpy).deleteUserById(5);
         //Act
         String retrievedProduct = userServiceSpy.deleteUserById(5);
         //Assert
-        Mockito.verify(userServiceSpy).deleteUser(user);
+        Mockito.verify(userServiceSpy).deleteUserById(5);
     }
 }

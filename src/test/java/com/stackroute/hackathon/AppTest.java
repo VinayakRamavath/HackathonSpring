@@ -30,7 +30,7 @@ public class AppTest  extends TestCase {
     }
 	
     private String createURLWithPort(String uri) {
-        return "http://localhost:" + port + uri;
+        return "http://localhost:" + port + "/v1.0/userservice" + uri;
     }
     
     @After
@@ -43,8 +43,9 @@ public class AppTest  extends TestCase {
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
+        System.out.println(createURLWithPort("/user"));
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/user/save"),
+                createURLWithPort("/user"),
                 HttpMethod.POST, entity, String.class); 
         assertNotNull(response);
         String actual = response.getBody();
@@ -55,12 +56,11 @@ public class AppTest  extends TestCase {
     public void testSaveUserWithoutEmail() throws Exception { 
     	String actual = ""; 
     		HttpHeaders headers = new HttpHeaders();
-	    	headers.setContentType(MediaType.APPLICATION_JSON);
-	    	user = new User(16, "akshaydv","akshay", "dv","akshay@stackroute.com");
+	    	headers.setContentType(MediaType.APPLICATION_JSON); 
 	    	user.setEmailId(null);
 	        HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
 	        ResponseEntity<String> response = restTemplate.exchange(
-	                createURLWithPort("/user/save"),
+	                createURLWithPort("/user"),
 	                HttpMethod.POST, entity, String.class); 
 	        assertNotNull(response);
 	        actual = response.getBody();
@@ -73,12 +73,11 @@ public class AppTest  extends TestCase {
     public void testSaveUserWithoutName() throws Exception { 
     	String actual = ""; 
     	HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-	    user = new User(16, "akshaydv","akshay", "dv","akshay@stackroute.com");
+	    headers.setContentType(MediaType.APPLICATION_JSON); 
 	    user.setFirstname(null);
 	    HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
 	    ResponseEntity<String> response = restTemplate.exchange(
-	             createURLWithPort("/user/save"),
+	             createURLWithPort("/user"),
 	             HttpMethod.POST, entity, String.class); 
 	    assertNotNull(response);
 	    actual = response.getBody();
@@ -91,7 +90,7 @@ public class AppTest  extends TestCase {
     public void testList() throws Exception {
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/user/all"),
+                createURLWithPort("/user"),
                 HttpMethod.GET, entity, String.class);
         assertNotNull(response);
     } 
@@ -102,11 +101,52 @@ public class AppTest  extends TestCase {
     	headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
         ResponseEntity<String> response = restTemplate.exchange(
-                createURLWithPort("/user/delete"),
+                createURLWithPort("/user"),
                 HttpMethod.DELETE, entity, String.class); 
         assertNotNull(response);
         String actual = response.getBody();
         assertEquals("User deleted successfully",actual);
+    }
+    
+    @Test
+    public void testDeleteInvalidUser() throws Exception {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+    	user.setId(10);
+        HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/user"),
+                HttpMethod.DELETE, entity, String.class); 
+        assertNotNull(response);
+        String actual = response.getBody();
+        assertEquals("Couldn't delete user. User with ID not found!",actual);
+    }
+    
+    @Test
+    public void testUpdateUser() throws Exception {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<User> entity = new HttpEntity<User>(user, headers);  
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/user"),
+                HttpMethod.PUT, entity, String.class); 
+        assertNotNull(response);
+        String actual = response.getBody();
+        assertEquals("User updated successfully",actual);
+    }
+    
+    @Test
+    public void testUpdateUserWithWrongId() throws Exception {
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<User> entity = new HttpEntity<User>(user, headers); 
+        user.setId(10);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createURLWithPort("/user"),
+                HttpMethod.PUT, entity, String.class); 
+        assertNotNull(response);
+        String actual = response.getBody();
+        assertEquals("Couldn't update user. User with ID not found!",actual);
     }
     
 }
