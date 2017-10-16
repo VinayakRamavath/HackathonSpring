@@ -65,4 +65,13 @@ public class UserServiceImplTest {
         //Assert
         Mockito.verify(userServiceSpy,never()).save(user);
     }
+    @Test
+    public void shouldVerifyThatDeleteUserIsCalled() throws Exception {
+        //Arrange
+        Mockito.doReturn(user).when(userServiceSpy).deleteUserById(5);
+        //Act
+        String retrievedProduct = userServiceSpy.deleteUserById(5);
+        //Assert
+        Mockito.verify(userServiceSpy).deleteUser(user);
+    }
 }

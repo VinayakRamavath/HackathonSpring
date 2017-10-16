@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody; 
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import com.stackroute.hackathon.domain.User;
+import com.stackroute.hackathon.exceptions.UserNotFoundException;
 import com.stackroute.hackathon.repositories.UserRepository;
 import com.stackroute.hackathon.services.UserService;
 
@@ -32,12 +34,11 @@ public class UserController {
 	@GetMapping(path="/{id:[0-9]+}") 
 	public @ResponseBody ResponseEntity<?> fetchUserByID (@PathVariable("id") int id) { 
 		try {
-		return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
-	}
-	catch(Exception e) {
-		User error=null;
-		return new ResponseEntity<String>("User with the ID Not Found. Please check and try again.", HttpStatus.NOT_FOUND);
-	}
+			return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+		}
+		catch(Exception e) {  
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
 	} 
 	 
 	@GetMapping(path="/{name:[a-zA-Z]+}") 
@@ -46,7 +47,7 @@ public class UserController {
 			return new ResponseEntity<User>(userService.getUserByName(name), HttpStatus.OK);
 		}
 		catch(Exception e) { 
-			return new ResponseEntity<String>("User with the name Not Found. Please check and try again.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}  
 	
@@ -62,7 +63,7 @@ public class UserController {
 			return new ResponseEntity<String>(userService.saveUser(user), HttpStatus.OK);
 		}
 		catch(Exception e) { 
-			return new ResponseEntity<String>("Unable to POST. Please check and try again.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -72,11 +73,11 @@ public class UserController {
 	@DeleteMapping
 	public @ResponseBody ResponseEntity<String> deleteUser (@RequestBody User movie){
 		try {
-		return new ResponseEntity<String>(userService.deleteUser(movie), HttpStatus.OK);
-	}
-	catch(Exception e) { 
-		return new ResponseEntity<String>("User with the ID Not Found. Please check and try again.", HttpStatus.NOT_FOUND);
-	}
+			return new ResponseEntity<String>(userService.deleteUser(movie), HttpStatus.OK);
+		}
+		catch(Exception e) { 
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
 	} 
 
 	@DeleteMapping(value = "/{id:[0-9]+}")
@@ -84,7 +85,7 @@ public class UserController {
 		try {
 			return new ResponseEntity<String>(userService.deleteUserById(id), HttpStatus.OK);
 		}catch(Exception e) { 
-			return new ResponseEntity<String>("User with the ID Not Found. Please check and try again.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 	}
 	 
@@ -97,7 +98,19 @@ public class UserController {
 			return new ResponseEntity<Iterable<User>>(userService.getAllUsers(), HttpStatus.OK);
 		}
 		catch(Exception e) { 
-			return  new ResponseEntity<String>("Unable to retrieve from Database. Please ensure that the proper credentials are being used as specified in the documentation", HttpStatus.BAD_REQUEST);
+			return  new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	//<--- Update Methods --->  
+		@PutMapping
+		public @ResponseBody ResponseEntity<?> updateUser(@RequestBody User user) { 
+			try {
+				if(user.getEmailId() == null || user.getUsername() == null) return new ResponseEntity<String>("Please make sure that both username and email id are entered.", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<String>(userService.updateUser(user), HttpStatus.OK);
+			}
+			catch(Exception e) { 
+				return new ResponseEntity<String>(e.getMessage(), HttpStatus.NOT_FOUND);
+			}
+		}
 }

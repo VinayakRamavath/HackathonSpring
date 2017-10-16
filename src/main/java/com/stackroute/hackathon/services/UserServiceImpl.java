@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import com.stackroute.hackathon.domain.User;
+import com.stackroute.hackathon.exceptions.UserNotFoundException;
 import com.stackroute.hackathon.repositories.UserRepository;
 
 
@@ -29,9 +30,11 @@ public class UserServiceImpl implements UserService{
 
 	//<--- Get Methods ---> 
 	@Override
-	public User getUserById(int id) {
-		// TODO Auto-generated method stub 
-		return userRepository.findOne(id); 
+	public User getUserById(int id) throws UserNotFoundException {
+		// TODO Auto-generated method stub  
+		User user = userRepository.findOne(id); 
+		if(user == null) throw new UserNotFoundException("User with ID not found!"); 
+		return user;
 	} 
 	
 	@Override
@@ -43,17 +46,24 @@ public class UserServiceImpl implements UserService{
 	
 	//<--- Delete Methods ---> 
 	@Override
-	public String deleteUser(User user) {
+	public String deleteUser(User user) throws UserNotFoundException {
 		// TODO Auto-generated method stub
+		if(!userRepository.exists(user.getId())) throw new UserNotFoundException("Couldn't delete user. User with ID not found!"); 
 		userRepository.delete(user);
 		return "User deleted successfully";
 	}
 
 	@Override
-	public String deleteUserById(int id) {
+	public String deleteUserById(int id) throws UserNotFoundException {
 		// TODO Auto-generated method stub
-		User user = getUserById(id);
-		userRepository.delete(id);
+		try {
+			User user = getUserById(id);
+			userRepository.delete(id);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			throw new UserNotFoundException("Couldn't delete user. User with ID not found!");
+		}
+		
 		return "User deleted successfully";
 	}
 
@@ -81,14 +91,20 @@ public class UserServiceImpl implements UserService{
 		userRepository.save(user);
 		return "User saved successfully";
 	}
-
 	public User save(User user) {
-		// TODO Auto-generated method stub 
+		// TODO Auto-generated method stub
 		userRepository.save(user);
 		return user;
 	}
 
-	
- 
+	public String updateUser(User user) throws UserNotFoundException {
+		// TODO Auto-generated method stub   
+		
+		if(!userRepository.exists(user.getId())) throw new UserNotFoundException("Couldn't update user. User with ID not found!");
+		userRepository.save(user);
+		return "User updated successfully";
+	}
+
+	 
 	
 }
