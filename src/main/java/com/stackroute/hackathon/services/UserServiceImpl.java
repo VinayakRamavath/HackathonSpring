@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import com.stackroute.hackathon.domain.User;
 import com.stackroute.hackathon.repositories.UserRepository;
 
